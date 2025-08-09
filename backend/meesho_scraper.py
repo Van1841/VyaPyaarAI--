@@ -1,5 +1,8 @@
+# selenium use kra --> no. of items scraped was 20 something and was slow.
 import undetected_chromedriver as uc
+# ka use hota hai taaki website ko pata na chale ki Selenium use ho raha hai (bot detection avoid karne ke liye).
 from selenium.webdriver.common.by import By
+# Yeh By class use hoti hai to specify kis tarah se element dhoondhna hai — jaise by ID, TAG_NAME, etc.
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,6 +12,7 @@ import time
 
 def scrape_meesho_prices(product_name):
     options = uc.ChromeOptions()
+    # Ye sab options browser ko optimize aur fake user-agent set karne ke liye — website ko ye lage ki real user hai.
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
@@ -29,6 +33,7 @@ def scrape_meesho_prices(product_name):
         time.sleep(5)
 
         prices = []
+        # collects all h5 tags bc prices are usually in those tags
         price_elements = driver.find_elements(By.TAG_NAME, "h5")
 
         for i in range(len(price_elements)):
@@ -40,7 +45,7 @@ def scrape_meesho_prices(product_name):
                     if amount.isdigit():
                         prices.append(int(amount))
             except StaleElementReferenceException:
-                # Re-fetch element if stale
+                # Re-fetch element if stale(purana / outdated / invalid)
                 el = driver.find_elements(By.TAG_NAME, "h5")[i]
                 text = el.text.strip()
                 if "₹" in text:

@@ -1,44 +1,55 @@
+// 2 button wala page hai sell online aur start business ka
+// hooks of react
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+// UI components
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+// SVG (Scalable Vector Graphics) icons
 import { Store, Package, LogOut, Sparkles, TrendingUp } from "lucide-react";
 
 export function HomePage() {
+  // username store hoga to greet on main page.
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
+  // local storage check kro if user is logged in or else redirect to login page.
   useEffect(() => {
     const userData = localStorage.getItem("vyapyaar_user");
     if (!userData) {
       navigate("/");
       return;
     }
-    
+    //agar hai username toh parse karo aur set karo.
     const user = JSON.parse(userData);
     setUsername(user.username);
   }, [navigate]);
 
+  //local storage se user data ko remove karo aur login page pe redirect karo.
   const handleLogout = () => {
     localStorage.removeItem("vyapyaar_user");
     navigate("/");
   };
 
+  // navigate functions to redirect to different pages.
   const navigateToStartBusiness = () => {
     navigate("/start-business");
   };
 
+  // navigate to sell online page
   const navigateToSellOnline = () => {
     navigate("/sell-online");
   };
 
   return (
+    //ui components and layout
     <div className="min-h-screen bg-gradient-warm">
       {/* Header */}
       <div className="bg-card/50 backdrop-blur-sm border-b border-border/50">
         <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="bg-gradient-primary p-2 rounded-lg">
+              {/* react component from lucid react for sparkle emoji */}
               <Sparkles className="h-5 w-5 text-white" />
             </div>
             <span className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">

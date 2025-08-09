@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+// to interact with mongoDB
 const mongoose = require('mongoose');
+// bcrypt: to hash passwords
 const bcrypt = require('bcrypt');
 const { scrape_meesho_prices } = require('./scraper');
 const User = require('./userModel');
@@ -25,6 +27,9 @@ app.get('/', (req, res) => {
   res.send('VyapyaarAI backend is running');
 });
 
+
+// mongo db mei login credentials save krta hai yeh !
+
 app.post('/api/signup', async (req, res) => {
   try {
     const { username, password, email } = req.body;
@@ -37,6 +42,7 @@ app.post('/api/signup', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Username or email already exists.' });
     }
 
+    // Hash the password before saving for safety
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, password: hashedPassword, email });
     await newUser.save();
@@ -48,6 +54,8 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
+
+// official login route for vyapyaarAI
 app.post('/api/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -72,6 +80,8 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// Scrape prices from Meesho based on product name
+// This endpoint will be called by the frontend to get prices
 app.post('/api/scrape-prices', async (req, res) => {
   try {
     const { productName } = req.body;
@@ -89,3 +99,40 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log('Playwright scraper ready');
 });
+
+
+
+// 🔐 1. User Authentication (Signup/Login)
+// Lets new users register with a username, email, and password.
+
+// Encrypts passwords using bcrypt before saving to the database.
+
+// Lets users log in, verifies password securely, and sends back basic user info.
+
+// This helps in managing access to features like scraping or tracking.
+
+// 🌐 2. Connects to MongoDB (Cloud Database)
+// Uses Mongoose to connect to your MongoDB Atlas database.
+
+// Stores user data like usernames, hashed passwords, and emails.
+
+// Think of this as your app's memory—where all user info is saved safely.
+
+// 📦 3. Enables API Calls from Frontend (CORS + JSON)
+// Allows frontend (like React) to make requests to this server using CORS.
+
+// Parses incoming JSON data from the frontend automatically.
+
+// Smooth data exchange between frontend ↔ backend.
+
+// 🛒 4. Product Price Scraper (Meesho)
+// Provides an endpoint to scrape real-time prices from Meesho using your scraper.js.
+
+// Takes a product name as input, scrapes its price, and returns the data.
+
+// Core Vyapyaar AI functionality—"Get price from Meesho live!" ✅
+
+// 🚀 5. Starts Your Server on Port 5000
+// Keeps your backend running and listening for requests from the frontend or postman.
+
+// Outputs logs so you know if it’s working.

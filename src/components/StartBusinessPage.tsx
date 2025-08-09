@@ -1,3 +1,5 @@
+// ai mentored chat bot page for starting a business
+// useRef => DOM ya values persist karne ke liye (without rerender)
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -5,14 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, Send, Bot, User, Lightbulb, TrendingUp } from "lucide-react";
 
-interface Message {
+interface Message { // har msg ek object hai jismei yeh sabh hoga.
   id: string;
   type: 'bot' | 'user';
   content: string;
-  suggestions?: string[];
+  suggestions?: string[]; //optional quick reply buttons
 }
 
-// Gemini AI configuration
+// Gemini AI configuration 
+//gemini ko instruction dene wala prompt hai yeh
 const SYSTEM_PROMPT = `
 Role:
 You are VyaPyaarAI — India’s trusted digital business mentor with 10+ years of experience helping first‑time entrepreneurs start profitable e‑commerce businesses via Meesho with minimal investment.
@@ -75,11 +78,15 @@ Follow-up:
 const GREETING = "👋 Namaste! I'm VyaPyaarAI, here to help you find the right business idea. Let's begin!";
 
 export function StartBusinessPage() {
+  //chat history, input value, typing state, and references.
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
+  // isTyping state to show typing indicator bot ke liye
   const [isTyping, setIsTyping] = useState(false);
+  //auto scroll
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  // chat session reference to store the current chat session
   const chatSessionRef = useRef<any>(null);
 
   const scrollToBottom = () => {
@@ -90,6 +97,7 @@ export function StartBusinessPage() {
     scrollToBottom();
   }, [messages]);
 
+  //on first load the gemini set up
   useEffect(() => {
     // Initialize chat
     initializeChat();
@@ -130,7 +138,8 @@ export function StartBusinessPage() {
       addBotMessage("Welcome! I'm here to help you start your business. Let's begin our conversation.");
     }
   };
-
+// it adds a new bot message to the chat history
+  // it is used to add a new bot message to the chat history
   const addBotMessage = (content: string, suggestions?: string[]) => {
     const newMessage: Message = {
       id: Date.now().toString(),
@@ -138,9 +147,9 @@ export function StartBusinessPage() {
       content,
       suggestions
     };
-    setMessages(prev => [...prev, newMessage]);
+    setMessages(prev => [...prev, newMessage]);// chat mei new bot msg gets added.
   };
-
+// it handles sending messages to the AI and updating the chat history
   const handleSend = async (message: string = inputValue) => {
     if (!message.trim()) return;
 
@@ -156,6 +165,7 @@ export function StartBusinessPage() {
     // Simulate bot typing
     setIsTyping(true);
     
+    // Scroll to bottom
     try {
       // Send message to Gemini AI
       if (!chatSessionRef.current) {
@@ -176,10 +186,14 @@ export function StartBusinessPage() {
     }
   };
 
+  // Handle suggestion click
+  // it handles suggestion click and sends the suggestion to the AI
   const handleSuggestionClick = (suggestion: string) => {
     handleSend(suggestion);
   };
 
+  // it handles key press events in the input field
+  // it checks if the Enter key is pressed without Shift key to send the message
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();

@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+// custom components hai
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Package, Bot, CheckCircle, XCircle } from "lucide-react";
 
 export function SellOnlinePage() {
+  // knowsPlatform state to track if user knows the platform ?
   const [knowsPlatform, setKnowsPlatform] = useState<boolean | null>(null);
+  // useNavigate hook for navigation
   const navigate = useNavigate();
 
   const handlePlatformChoice = (knows: boolean) => {
@@ -25,6 +28,7 @@ export function SellOnlinePage() {
       {/* Header */}
       <div className="bg-card/50 backdrop-blur-sm border-b border-border/50">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
+          {/* back button hai yeh peeche le jayega! */}
           <Button 
             variant="outline" 
             size="sm" 
@@ -123,6 +127,7 @@ export function SellOnlinePage() {
             What happens next?
           </h3>
           <div className="space-y-2 text-sm text-muted-foreground">
+            {/* Strong tag is a semantic tag jo text ko important btata hai and by default is bold too */}
             <p>• <strong>If you know the platform:</strong> We'll collect your product details and create a step-by-step listing guide</p>
             <p>• <strong>If you need help choosing:</strong> Our AI will ask about your product, budget, and goals to recommend the perfect platform</p>
             <p>• Either way, we'll have you selling online in no time! 🎉</p>

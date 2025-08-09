@@ -7,8 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { Heart, Sparkles } from "lucide-react";
 
+//backend API URL
 const API_BASE_URL = "http://localhost:5000/api"; // Change if your backend is hosted elsewhere
 
+
+// sign up api call jo frontend se backend ko data bhejega
 const signUp = async (userData: { username: string; password: string; email?: string }) => {
   try {
     const response = await fetch(`${API_BASE_URL}/signup`, {
@@ -24,6 +27,9 @@ const signUp = async (userData: { username: string; password: string; email?: st
   }
 };
 
+// login api call jo frontend se backend ko data bhejega
+// idhar username and password bhejenge
+// backend se response aayega success ya error ke saath
 const login = async (username: string, password: string) => {
   try {
     const response = await fetch(`${API_BASE_URL}/login`, {
@@ -39,6 +45,8 @@ const login = async (username: string, password: string) => {
   }
 };
 
+// main login page component
+// yeh component login aur sign up dono handle karega
 export function LoginPage() {
   const [isLoginView, setIsLoginView] = useState(true);
   const [formData, setFormData] = useState({
@@ -49,13 +57,17 @@ export function LoginPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  // alert show krega success or error ka
   const { toast } = useToast();
 
+  // handleChange function form fields ke changes ko handle karega
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // handleLogin function login button click hone par chalega
+  // yeh function username aur password ko validate karega
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -98,6 +110,8 @@ export function LoginPage() {
     }
   };
 
+  //form submit hone pr deafult refresh rokega
+  // sign up button click hone par chalega
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -152,7 +166,7 @@ export function LoginPage() {
       setIsLoading(false);
     }
   };
-
+// toggleView function login aur sign up view ko toggle karega
   const toggleView = () => {
     setIsLoginView(!isLoginView);
     setFormData({
@@ -164,6 +178,7 @@ export function LoginPage() {
   };
 
   return (
+    //ui
     <div className="min-h-screen bg-gradient-warm flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Header */}

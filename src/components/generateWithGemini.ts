@@ -1,3 +1,9 @@
+// it is backend logic for AI jo user ke input pr product listing krega.
+// it does platform suggestion(3 dega) and generate product listing(5 bullets, SEO, etc)
+
+// it imports gemini main class and safety enums.
+// harm category for content filtering
+
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
 // Validate API key
@@ -6,7 +12,10 @@ if (!apiKey) {
   throw new Error("Google API key is not configured. Please set VITE_GOOGLE_API_KEY in your environment variables.");
 }
 
+// create instance of GoogleGenerativeAI with the API key
 const genAI = new GoogleGenerativeAI(apiKey);
+
+// yeh fn user ke input pr based top 3 platforms suggest krega..
 export async function generatePlatformRecommendations(userInput: {
   productType: string;
   experienceLevel: string;
@@ -39,6 +48,7 @@ Just list the top 3 recommendations like this:
   const model = genAI.getGenerativeModel({
     model: "gemini-2.0-flash",
     safetySettings: [
+      // "Agar output mein harassment/hate/sexual/dangerous content ho aur high severity ho, toh block karo”
       {
         category: HarmCategory.HARM_CATEGORY_HARASSMENT,
         threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
@@ -57,12 +67,14 @@ Just list the top 3 recommendations like this:
       }
     ],
     generationConfig: {
-      maxOutputTokens: 800,
-      temperature: 0.6,
-      topP: 0.9,
+      maxOutputTokens: 800,// max words = 800
+      temperature: 0.6,// creativity level
+      topP: 0.9,// diversity of responses
     },
   });
 
+  // Generate content using the model
+  // yeh model user ke input pr based content generate krega.
   const result = await model.generateContent(prompt);
   const response = await result.response;
   return response.text().trim();
@@ -179,6 +191,8 @@ Provide response as valid JSON only (no additional text):
     const parsed = JSON.parse(cleanText);
 
     // Validate response structure
+    // check kiya ki output valid format mei hai ki nhi must have 5 bullet points
+  
     if (
       !parsed.title || 
       !parsed.bulletPoints || 
@@ -194,6 +208,8 @@ Provide response as valid JSON only (no additional text):
       bulletPoints: parsed.bulletPoints.map((point: string) => point.trim()),
       seoDescription: parsed.seoDescription.trim()
     };
+
+    //error handling hai yeh
   } catch (error) {
     console.error("Error in generateProductListing:", error);
     throw new Error(
