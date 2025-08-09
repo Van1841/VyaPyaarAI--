@@ -1,5 +1,4 @@
-<img width="1294" height="905" alt="image" src="https://github.com/user-attachments/assets/38a57930-165a-4614-a8f3-05a5aa1be6a8" />### MEESHO SCRIPTED BY HER - TEAM CODEHERS : VYAPYAAR AI 
-- Sakshi Singh A    - Aditi Hotti   - Vanshika Bhojani 
+
 
 Deployed link : https://vya-pyaar-ai.vercel.app/
 
