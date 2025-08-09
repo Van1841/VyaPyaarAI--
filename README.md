@@ -1,4 +1,4 @@
-### MEESHO SCRIPTED BY HER - TEAM CODEHERS : VYAPYAAR AI 
+<img width="1294" height="905" alt="image" src="https://github.com/user-attachments/assets/38a57930-165a-4614-a8f3-05a5aa1be6a8" />### MEESHO SCRIPTED BY HER - TEAM CODEHERS : VYAPYAAR AI 
 - Sakshi Singh A    - Aditi Hotti   - Vanshika Bhojani 
 
 Deployed link : https://vya-pyaar-ai.vercel.app/
@@ -118,6 +118,13 @@ npm run dev
 
 5. You're all set!
 Open your browser and visit http://localhost:8080/ to use the app.
+
+<img width="892" height="840" alt="image" src="https://github.com/user-attachments/assets/10f52dda-3bcd-4d86-aecc-ca4668447727" />
+<img width="1299" height="911" alt="image" src="https://github.com/user-attachments/assets/3cf4efc4-a716-44c8-a0ef-7a2362dc0a3f" />
+<img width="1294" height="905" alt="image" src="https://github.com/user-attachments/assets/f9be15e3-6108-407c-9624-67dc29c11c3c" />
+<img width="1556" height="923" alt="image" src="https://github.com/user-attachments/assets/25ab3aa6-feab-483e-89b7-75cb53c0b9d0" />
+
+
 
 
 
